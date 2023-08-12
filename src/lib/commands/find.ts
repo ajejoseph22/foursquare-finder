@@ -30,5 +30,4 @@ exports.handler = async (argv: { postcode: string }) => {
   console.log("fsResult", fsResult);
 
   // Output in csv format
-
 };
