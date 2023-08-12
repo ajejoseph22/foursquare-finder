@@ -1,5 +1,5 @@
 import yargs from "yargs";
-import {convertPostCodeToLongLat} from "../utils";
+import {convertPostCodeToLongLat, queryFsPlaces} from "../utils";
 
 // you *have to* specify <postcode>
 exports.command = "find <postcode>";
@@ -21,11 +21,14 @@ exports.handler = async (argv: { postcode: string }) => {
   // TODO: remove this
   console.log("postcode", postcode);
 
-  // convert to long/lat
+  // Convert postcode to long/lat
   const longLat = await convertPostCodeToLongLat(postcode);
   console.log("longLat", longLat);
 
-  // Query FS API
+  // Query FourSquare API
+  const fsResult = await queryFsPlaces(longLat);
+  console.log("fsResult", fsResult);
 
   // Output in csv format
+
 };
