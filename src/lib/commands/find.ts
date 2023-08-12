@@ -1,4 +1,6 @@
+import fse from "fs-extra";
 import yargs from "yargs";
+import {json2csv} from "json-2-csv";
 import {convertPostCodeToLongLat, queryFsPlaces} from "../utils";
 
 // you *have to* specify <postcode>
@@ -18,16 +20,14 @@ exports.builder = (yargs: yargs.Argv<{}>) => {
 exports.handler = async (argv: { postcode: string }) => {
   const {postcode} = argv;
 
-  // TODO: remove this
-  console.log("postcode", postcode);
-
   // Convert postcode to long/lat
   const longLat = await convertPostCodeToLongLat(postcode);
-  console.log("longLat", longLat);
 
   // Query FourSquare API
-  const fsResult = await queryFsPlaces(longLat);
-  console.log("fsResult", fsResult);
+  const fsApiResult = await queryFsPlaces(longLat);
 
-  // Output in csv format
+  // Create a csv file <postcode>.csv and save results
+  const csv = await json2csv(fsApiResult);
+  await fse.outputFile(`results/${postcode}.csv`, csv);
+  console.log("File successfully saved in results folder");
 };

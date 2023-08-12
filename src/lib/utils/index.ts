@@ -24,9 +24,11 @@ export const convertPostCodeToLongLat = async (
 };
 
 export const queryFsPlaces = async (longLat: LongLatResult) => {
-  const searchResult = (await sdk.placeSearch({
-    ll: encodeURI(`${longLat.result.latitude},${longLat.result.longitude}`),
-  })).data;
+  const searchResult = (
+      await sdk.placeSearch({
+        ll: encodeURI(`${longLat.result.latitude},${longLat.result.longitude}`),
+      })
+  ).data;
 
   const imageResults = await Promise.all(
       searchResult.results.map(({fsq_id}: SearchResultItem) =>
@@ -38,12 +40,12 @@ export const queryFsPlaces = async (longLat: LongLatResult) => {
     const imageObj = imageResults[index].data[0];
     const image = `${imageObj.prefix}original${imageObj.suffix}`;
     return {
-      image,
       "FSQ ID": item.fsq_id,
       Category: item.categories.map((category) => category.name).join(", "),
       "Formatted Address": item.location.formatted_address,
       Geocodes: `${item.geocodes.main.latitude}, ${item.geocodes.main.longitude}`,
       Distance: `${item.distance}m away`,
+      Image: image,
     };
   });
 };
