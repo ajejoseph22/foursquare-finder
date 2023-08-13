@@ -42,4 +42,4 @@ This repo contains a minimalistic Node.js CLI app to quickly find Foursquare ven
     ```
     ![test coverage information](test-coverage.png)
 
-**PS: results take the format <uk postcode>.csv are saved in the `results` folder in the root directory from where the app is run**
+**PS: results take the format [uk postcode].csv are saved in the `results` folder in the root directory from where the app is run**
