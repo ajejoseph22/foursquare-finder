@@ -25,11 +25,15 @@ type SearchResult = {
 export const convertPostCodeToLongLat = async (
     postcode: string
 ): Promise<LongLatResult> => {
-    try {
-        return await postcodes.lookup(postcode);
-    } catch (err) {
-        throw new Error(`Error converting postcode to long/lat: ${err}`);
+    const result = await postcodes.lookup(postcode);
+
+    if (result.status !== 200) {
+        throw new Error(
+            `Error converting postcode to long/lat: ${result.error}`
+        );
     }
+
+    return result;
 };
 
 export const queryFsPlaces = async (longLat: LongLatResult) => {

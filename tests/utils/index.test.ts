@@ -4,7 +4,9 @@ const postcodes = require("node-postcodes.io");
 import { convertPostCodeToLongLat, queryFsPlaces } from "../../src/lib/utils";
 
 jest.mock("node-postcodes.io", () => ({
-    lookup: jest.fn(),
+    lookup: jest.fn().mockResolvedValue({
+        status: 200,
+    }),
 }));
 
 jest.mock("api", () => {
@@ -49,7 +51,10 @@ describe("convertPostCodeToLongLat", () => {
     it("throws an error if postcodes.lookup returns an error", async () => {
         // Arrange
         const postcode = "NW13FG";
-        mocked(postcodes.lookup).mockRejectedValue("Invalid postcode");
+        mocked(postcodes.lookup).mockResolvedValue({
+            status: 404,
+            error: "Invalid postcode",
+        });
 
         // Act & Assert
         await expect(convertPostCodeToLongLat(postcode)).rejects.toThrow(
