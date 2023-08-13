@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "bin": "dist/index.js",
   "scripts": {
-    "test": "jest --colors",
     "build": "tsc",
-    "start": "yarn build && node dist/index.js"
+    "dev": "yarn build && node dist/index.js",
+    "test": "jest --colors --verbose --coverage"
   },
   "repository": {
     "type": "git",
